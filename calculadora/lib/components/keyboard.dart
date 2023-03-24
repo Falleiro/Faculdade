@@ -3,6 +3,10 @@ import 'burron_row.dart';
 import 'button.dart';
 
 class Keyboard extends StatelessWidget {
+  final void Function(String) cb;
+
+  Keyboard(this.cb);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -10,33 +14,37 @@ class Keyboard extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ButtonRow([
-            Button(text: 'AC'),
-            Button(text: '+/-'),
-            Button(text: '%'),
-            Button.Operation(text: '/'),
+            Button(text: 'AC', color: Button.GRAY, cb: cb),
+            Button(text: '+/-', color: Button.GRAY, cb: cb),
+            Button(text: '%', color: Button.GRAY, cb: cb),
+            Button.Operation(text: '/', cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
-            Button(text: '7'),
-            Button(text: '8'),
-            Button(text: '9'),
-            Button.Operation(text: 'x'),
+            Button(text: '7', cb: cb),
+            Button(text: '8', cb: cb),
+            Button(text: '9', cb: cb),
+            Button.Operation(text: 'x', cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
-            Button(text: '4'),
-            Button(text: '5'),
-            Button(text: '6'),
-            Button.Operation(text: '-'),
+            Button(text: '4', cb: cb),
+            Button(text: '5', cb: cb),
+            Button(text: '6', cb: cb),
+            Button.Operation(text: '-', cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
-            Button(text: '1'),
-            Button(text: '2'),
-            Button(text: '3'),
-            Button.Operation(text: '+'),
+            Button(text: '1', cb: cb),
+            Button(text: '2', cb: cb),
+            Button(text: '3', cb: cb),
+            Button.Operation(text: '+', cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
-            Button.Big(text: '0'),
-            Button(text: ','),
-            Button.Operation(text: '='),
+            Button.Big(text: '0', cb: cb),
+            Button(text: ',', cb: cb),
+            Button.Operation(text: '=', cb: cb),
           ]),
         ],
       ),
