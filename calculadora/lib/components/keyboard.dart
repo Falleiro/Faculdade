@@ -14,8 +14,7 @@ class Keyboard extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ButtonRow([
-            Button(text: 'AC', color: Button.GRAY, cb: cb),
-            Button(text: '+/-', color: Button.GRAY, cb: cb),
+            Button.Big(text: 'AC', color: Button.GRAY, cb: cb),
             Button(text: '%', color: Button.GRAY, cb: cb),
             Button.Operation(text: '/', cb: cb),
           ]),
@@ -43,7 +42,7 @@ class Keyboard extends StatelessWidget {
           SizedBox(height: 1),
           ButtonRow([
             Button.Big(text: '0', cb: cb),
-            Button(text: ',', cb: cb),
+            Button(text: '.', cb: cb),
             Button.Operation(text: '=', cb: cb),
           ]),
         ],
