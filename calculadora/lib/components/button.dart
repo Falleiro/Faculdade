@@ -28,7 +28,7 @@ class Button extends StatelessWidget {
 
   Button.Operation({
     required this.text,
-    this.big = true,
+    this.big = false,
     this.color = OPERATION,
     required this.cb,
   });

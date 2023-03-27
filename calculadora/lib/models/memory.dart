@@ -3,11 +3,17 @@ class Memory {
 
   final _buffer = [0.0, 0.0];
   int _bufferIndex = 0;
-  late String operation;
+  late String _operation;
   String _value = '0';
   bool _wipeValue = false;
+  String _lastCommand = '';
 
   void applyCommand(String command) {
+    if (_isReplacingOperation(command)) {
+      _operation = command;
+      return;
+    }
+
     if (command == 'AC') {
       _allClear();
     } else if (operations.contains(command)) {
@@ -15,49 +21,64 @@ class Memory {
     } else {
       _addDigit(command);
     }
+
+    _lastCommand = command;
+  }
+
+  _isReplacingOperation(String command) {
+    return operations.contains(_lastCommand) &&
+        operations.contains(command) &&
+        _lastCommand != '=' &&
+        command != '=';
   }
 
   _setOperation(String newOperation) {
+    bool isEqualSign = newOperation == '=';
     if (_bufferIndex == 0) {
-      operation = newOperation;
-      _bufferIndex = 1;
+      if (!isEqualSign) {
+        _operation = newOperation;
+        _bufferIndex = 1;
+        _wipeValue = true;
+      }
     } else {
       _buffer[0] = _calculate();
       _buffer[1] = 0.0;
       _value = _buffer[0].toString();
-      _value = _value.endsWith('0') ? _value.split('.')[0] : _value;
+      _value = _value.endsWith('.0') ? _value.split('.')[0] : _value;
+
+      _operation = isEqualSign ? '' : newOperation;
+      _bufferIndex = isEqualSign ? 0 : 1;
     }
-    _wipeValue = true;
+
+    _wipeValue = true; // !isEqualSign;
   }
 
   _addDigit(String digit) {
-    //verifica se o digito é um ponto
     final isDot = digit == '.';
-    //se for um '0,' o wipe balue fica true
     final wipeValue = (_value == '0' && !isDot) || _wipeValue;
 
-    if (isDot && _value.contains(',') && !wipeValue) {
+    if (isDot && _value.contains('.') && !wipeValue) {
       return;
     }
-    //TODO: continuar a partir de onde parei a aula
-    //caso a proxima operação comece com virgula, ele inicia com um 0
+
     final emptyValue = isDot ? '0' : '';
-    //se o wipeValue for true,
     final currentValue = wipeValue ? emptyValue : _value;
-    print('Currentvalue: ' + currentValue + '   digito:' + digit);
     _value = currentValue + digit;
     _wipeValue = false;
 
     _buffer[_bufferIndex] = double.tryParse(_value) ?? 0;
-    print(_buffer);
   }
 
   _allClear() {
     _value = '0';
+    _buffer.setAll(0, [0.0, 0.0]);
+    _bufferIndex = 0;
+    _operation = '';
+    _wipeValue = false;
   }
 
   _calculate() {
-    switch (operation) {
+    switch (_operation) {
       case '%':
         return _buffer[0] % _buffer[1];
       case '/':
