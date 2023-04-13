@@ -8,7 +8,6 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ModuleRoute('/',
-            module: HomeModule()), //vai direto pra home, no caso /HomeModule
+        ModuleRoute('/', module: HomeModule()),
       ];
 }

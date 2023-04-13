@@ -5,13 +5,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:localization/localization.dart';
 
 class AppWidget extends StatelessWidget {
-  const AppWidget({Key? key}) : super(key: key);
+  const AppWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     LocalJsonLocalization.delegate.directories = ['lib/assets/i18n'];
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       scrollBehavior: AppScrollBehavior(),
       title: 'app_name'.i18n(),
       localizationsDelegates: [

@@ -40,7 +40,7 @@ flutter:
   fonts:
     - family: Billabong
       fonts:
-        - asset: lib/assets/fonts/Billabong.tft
+        - asset: lib/assets/fonts/Billabong.ttf
 
 
   
