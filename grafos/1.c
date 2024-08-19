@@ -4,6 +4,7 @@
 typedef struct vertice{
 
     struct lista *adj;
+    int visitado;
 
 }vertice;
 
@@ -26,9 +27,10 @@ lista *aloca_lista();
 registro *aloca_registro();
 void incluir_vertice_lista_adj(vertice *v, int valor);
 void mostrar_lista(lista *l);
+void dfs(int raiz, vertice *vertices, int componentes);
 int main(){
 
-    int qtd_vertice, qtd_aresta, a, b;
+    int qtd_vertice, qtd_aresta, a, b, componentes = 0;
     
 
     printf("\nDigite a quantidade de vértices e arestas:");
@@ -54,7 +56,9 @@ int main(){
         printf("\n");
     }
 
-    
+    dfs(1, vertices, componentes);
+
+    printf("\nComponentes:%d", componentes);
 
     return 0;
 }
@@ -93,21 +97,43 @@ void mostrar_lista(lista *l)
 {
 
     registro *aux;
-    if (l == NULL)
-    {
+    if (l == NULL){
         return;
     }
 
-    if (l->inicio == NULL)
-    {
+    if (l->inicio == NULL){
         return;
     }
 
     aux = l->inicio;
 
-    while (aux != NULL)
-    {
+    while (aux != NULL){
         printf("%d ", aux->valor);
         aux = aux->proximo;
     }
+}
+
+void dfs(int raiz, vertice *vertices, int componentes){
+   vertices[raiz].visitado = 1;
+
+   registro *aux;
+
+   if(vertices[raiz].adj !=NULL){
+        aux = vertices[raiz].adj->inicio;
+
+        while (aux != NULL)
+        {
+            if (vertices[aux->valor].visitado == 0)
+            {
+                dfs(aux->valor,vertices,componentes);
+            }
+            aux = aux->proximo;
+        }
+        printf("componente ++");
+        componentes++;
+   }
+   else{
+    printf("componente ++");
+    componentes++;
+   }
 }
