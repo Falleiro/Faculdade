@@ -27,10 +27,10 @@ lista *aloca_lista();
 registro *aloca_registro();
 void incluir_vertice_lista_adj(vertice *v, int valor);
 void mostrar_lista(lista *l);
-void dfs(int raiz, vertice *vertices, int componentes);
+void dfs(int raiz, vertice *vertices);
 int main(){
 
-    int qtd_vertice, qtd_aresta, a, b, componentes = 0;
+    int qtd_vertice, qtd_aresta, a, b;
     
 
     printf("\nDigite a quantidade de vértices e arestas:");
@@ -56,9 +56,20 @@ int main(){
         printf("\n");
     }
 
-    dfs(1, vertices, componentes);
+    int contador = 0;
+    for (int i = 1; i <= qtd_vertice; i++)
+    {
+        if (vertices[i].visitado == 0)
+        {
+            printf("\nAcessando DFS pela %d vez", i);
+            dfs(i, vertices);
+            contador++;
+        }else{
+            printf("o vertice %d foi visitado", i);
+        }
+    }
 
-    printf("\nComponentes:%d", componentes);
+    printf("\nContador:%d\n", contador);
 
     return 0;
 }
@@ -113,27 +124,24 @@ void mostrar_lista(lista *l)
     }
 }
 
-void dfs(int raiz, vertice *vertices, int componentes){
+void dfs(int raiz, vertice *vertices){
    vertices[raiz].visitado = 1;
 
    registro *aux;
 
-   if(vertices[raiz].adj !=NULL){
-        aux = vertices[raiz].adj->inicio;
+   if (vertices[raiz].adj==NULL){
+    return;
+   }
+   
+    aux = vertices[raiz].adj->inicio;
 
-        while (aux != NULL)
+    while (aux != NULL)
+    {
+        if (vertices[aux->valor].visitado == 0)
         {
-            if (vertices[aux->valor].visitado == 0)
-            {
-                dfs(aux->valor,vertices,componentes);
-            }
-            aux = aux->proximo;
+            dfs(aux->valor,vertices);
         }
-        printf("componente ++");
-        componentes++;
-   }
-   else{
-    printf("componente ++");
-    componentes++;
-   }
+        aux = aux->proximo;
+    }
+ 
 }
