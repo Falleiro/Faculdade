@@ -26,17 +26,17 @@ int main() {
     int qtd_vertice, qtd_aresta, a, b, qtd_cenarios;
     vertice *vertices;
 
-    printf("\nDigite a quantidade de cenários: ");
+    // printf("\nDigite a quantidade de cenários: ");
     scanf("%d", &qtd_cenarios);
 
     for (int cenario = 0; cenario < qtd_cenarios; cenario++) {
-        printf("\nDigite a quantidade de insetos e interação entre eles: ");
+        // printf("\nDigite a quantidade de insetos e interação entre eles: ");
         scanf("%d %d", &qtd_vertice, &qtd_aresta);
 
         vertices = (vertice *)calloc(qtd_vertice + 1, sizeof(vertice)); // Corrigido o uso de calloc
 
         for (int i = 0; i < qtd_aresta; i++) {
-            printf("\nDigite a interação %d: ", i + 1);
+            // printf("\nDigite a interação %d: ", i + 1);
             scanf("%d %d", &a, &b);
 
             incluir_vertice_lista_adj(&vertices[a], b);
@@ -54,11 +54,11 @@ int main() {
             }
         }
 
-        printf("Cenário #%d:\n", cenario + 1);
+        printf("Scenario #%d:\n", cenario + 1);
         if (isBipartite) {
-            printf("Nenhum inseto suspeito encontrado!\n");
+            printf("No suspicious bugs found!\n");
         } else {
-            printf("Insetos suspeitos encontrados!\n");
+            printf("Suspicious bugs found!\n");
         }
 
         // Liberando memória alocada
@@ -119,7 +119,8 @@ void mostrar_lista(lista *l) {
 int dfs(int raiz, vertice *vertices, int cor) {
     vertices[raiz].cor = cor;
 
-    registro *aux = vertices[raiz].adj->inicio;
+    // Declarar 'aux' apenas uma vez
+    registro *aux = (vertices[raiz].adj != NULL) ? vertices[raiz].adj->inicio : NULL;
 
     while (aux != NULL) {
         if (vertices[aux->valor].cor == 0) { // Se o vértice adjacente ainda não foi colorido
@@ -132,5 +133,5 @@ int dfs(int raiz, vertice *vertices, int cor) {
         aux = aux->proximo;
     }
 
-    return 1; // Certifica-se de que a função retorna 1 (verdadeiro) se o grafo for bipartido
+    return 1; // Certifica-se de que a função retorna 1 (verdadeiro)
 }
