@@ -17,18 +17,19 @@ typedef struct registro
 {
     int valor;
     struct registro *prox;
+    int peso;
 } registro;
 
 lista *aloca_lista();
 registro *aloca_registro();
 void mostrar_lista(lista *l);
 void incluir_final(lista *l, int x);
-void incluir_vertice_lista_adjacencia(vertice *v, int valor);
+void incluir_vertice_lista_adjacencia(vertice *v, int valor, int peso);
 void dfs(int raiz, vertice *vertices, int pai);
 int main()
 {
 
-    int qtd_vertices, qtd_arestas, i, a, b, ciclo = 0;
+    int qtd_vertices, qtd_arestas, i, a, b, ciclo = 0, c;
     vertice *vertices;
 
     scanf("%d %d", &qtd_vertices, &qtd_arestas);
@@ -37,18 +38,18 @@ int main()
 
     for (i = 0; i < qtd_arestas; i++)
     {
-        scanf("%d %d", &a, &b);
-        incluir_vertice_lista_adjacencia(&vertices[a], b);
-        incluir_vertice_lista_adjacencia(&vertices[b], a);
+        scanf("%d %d %d", &a, &b, &c);
+        incluir_vertice_lista_adjacencia(&vertices[a], b, c);
+        incluir_vertice_lista_adjacencia(&vertices[b], a, c);
     }
 
-    // printf("Lista da Adjacencia: \n");
-    // for (i = 1; i <= qtd_vertices; i++)
-    // {
-    //     printf("Vertice: %d -> ", i);
-    //     mostrar_lista(vertices[i].adj);
-    //     printf("\n");
-    // }
+    printf("Lista da Adjacencia: \n");
+    for (i = 1; i <= qtd_vertices; i++)
+    {
+        printf("Vertice: %d -> ", i);
+        mostrar_lista(vertices[i].adj);
+        printf("\n");
+    }
 
     for(int i = 1; i<=qtd_vertices;i++){
         if(vertices[i].visitado==0){
@@ -82,7 +83,7 @@ void dfs(int raiz, vertice *vertices, int pai)
     }
 }
 
-void incluir_vertice_lista_adjacencia(vertice *v, int valor)
+void incluir_vertice_lista_adjacencia(vertice *v, int valor, int peso)
 {
     if (v->adj == NULL)
     {
@@ -91,6 +92,7 @@ void incluir_vertice_lista_adjacencia(vertice *v, int valor)
 
     registro *novo = aloca_registro();
     novo->valor = valor;
+    novo->peso = peso;
 
     if (v->adj->inicio == NULL)
     {
@@ -160,7 +162,7 @@ void mostrar_lista(lista *l)
 
     while (aux != NULL)
     {
-        printf("%d ", aux->valor);
+        printf("%d (%d)", aux->valor, aux->peso);
         aux = aux->prox;
     }
 }
