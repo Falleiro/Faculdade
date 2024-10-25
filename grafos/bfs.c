@@ -61,7 +61,6 @@ int main(){
                 vertices[vertice_atual].visitado = 1;
                 contador++;
 
-                // Adicionar vértices adjacentes na fila
                 registro *aux = vertices[vertice_atual].adj->inicio;
                 while (aux != NULL)
                 {
